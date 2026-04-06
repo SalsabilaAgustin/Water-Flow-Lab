@@ -10,6 +10,7 @@ if 'jawaban_benar' not in st.session_state:
 
 # ========================================
 # HALAMAN AWAL - watter
+                    st.watter()
 # ========================================
 if st.session_state.halaman == 'start':
     st.markdown("""
@@ -174,11 +175,12 @@ elif st.session_state.halaman == 'main':
     with tab4:
         st.header("📈 **Data Standar**")
         data = {
-            "Kegiatan": ["Mandi", "Cuci tangan", "Cuci piring"],
-            "Rata-rata": [80, 5, 15],
-            "Hemat": [50, 2, 8]
+            "Kegiatan": ["Mandi", "Cuci baju", "Cuci tangan", "Cuci piring"],
+            "Rata-rata": [80, 150, 5, 15],
+            "Hemat": [50, 100, 2, 8]
         }
         st.table(data)
 
 st.markdown("---")
 st.caption("💧 AquaFlow - Simulasi Interaktif Fisika SMA")
+st.watter()

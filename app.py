@@ -24,7 +24,7 @@ if st.session_state.halaman == 'start':
     # Efek air
     st.markdown("""
     <div style='text-align: center; margin: 2rem 0;'>
-        <h1 class="big-title water-effect">💦✨ AquaFlow ✨💦</h1>
+        <h1 class="big-title water-effect">💦✨ WaterFlow ✨💦</h1>
         <p class="cute-text">Simulasi Interaktif Fisika SMA 🛁🚿</p>
     </div>
     """, unsafe_allow_html=True)
@@ -34,6 +34,7 @@ if st.session_state.halaman == 'start':
         if st.button("🚀 **START** 🚀", use_container_width=True, key="start_btn"):
             st.session_state.halaman = 'main'
             st.rerun()
+            st.watter()
     
     # Water animation CSS
     st.markdown("""

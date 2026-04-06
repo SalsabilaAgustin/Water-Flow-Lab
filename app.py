@@ -9,7 +9,7 @@ if 'jawaban_benar' not in st.session_state:
     st.session_state.jawaban_benar = False
 
 # ========================================
-# HALAMAN AWAL - EFEK AIR
+# HALAMAN AWAL - watter
 # ========================================
 if st.session_state.halaman == 'start':
     st.markdown("""

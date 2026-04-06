@@ -204,7 +204,7 @@ elif st.session_state.halaman == 'main':
         data = {
             "Kegiatan": ["Mandi", "Cuci baju", "Cuci tangan", "Cuci piring"],
             "Rata-rata": [80, 150, 5, 15],
-            "Hemat": [50, 100 2, 8]
+            "Hemat": [50, 100, 2, 8]
         }
         st.table(data)
         

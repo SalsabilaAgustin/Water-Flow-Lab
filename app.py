@@ -182,4 +182,3 @@ elif st.session_state.halaman == 'main':
 
 st.markdown("---")
 st.caption("💧 AquaFlow - Simulasi Interaktif Fisika SMA")
-st.watter()

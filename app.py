@@ -10,7 +10,6 @@ if 'jawaban_benar' not in st.session_state:
 
 # ========================================
 # HALAMAN AWAL - watter
-                    st.watter()
 # ========================================
 if st.session_state.halaman == 'start':
     st.markdown("""

@@ -1,72 +1,67 @@
 import streamlit as st
-import numpy as np
-import pandas as pd
 
-st.set_page_config(page_title="💧AquaFlow", page_icon="💧", layout="wide")
+st.set_page_config(page_title="AquaFlow", page_icon="💧", layout="wide")
 
-# MENU TAB
+st.title("💧 **AquaFlow - Simulasi Debit Air**")
+
+# TAB 1: START
 tab1, tab2, tab3, tab4 = st.tabs(["🚀 Start", "📊 Simulasi", "🧠 Kuis", "📈 Data"])
 
 with tab1:
-    st.header("🎮 AquaFlow - Simulasi Air")
-    st.write("**Pilih tab Simulasi untuk mulai!**")
-    if st.button("🚀 MULAI", type="primary"):
-        st.success("✅ Siap simulasi!")
+    st.header("Selamat Datang!")
+    st.write("Aplikasi simulasi pemakaian air harian")
+    if st.button("Mulai Simulasi"):
+        st.balloons()
 
 with tab2:
     st.header("🚿 Simulasi Mandi")
     
-    # INPUT SIMPEL
-    waktu = st.slider("⏰ Waktu mandi (menit)", 1, 30, 10)
-    jenis = st.selectbox("💧 Jenis", ["Shower 10L/m", "Keran 6L/m", "Ember 20L"])
-    frekuensi = st.slider("🔄 Kali/hari", 1, 4, 2)
+    # Input
+    waktu = st.slider("Waktu mandi (menit)", 1, 30, 10)
+    jenis = st.selectbox("Jenis air", ["Shower (10L/menit)", "Keran (6L/menit)", "Ember (20L)"])
+    kali = st.slider("Kali per hari", 1, 4, 2)
     
-    # HITUNG
+    # Hitung
     if "Shower" in jenis:
-        debit = 10
+        debit = 10 * waktu
     elif "Keran" in jenis:
-        debit = 6
+        debit = 6 * waktu
     else:
         debit = 20
     
-    air_mandi = debit * waktu if "Ember" not in jenis else debit
-    total = air_mandi * frekuensi
+    total = debit * kali
     
-    # HASIL
-    col1, col2 = st.columns(2)
-    col1.metric("💦 Per mandi", f"{air_mandi} L")
-    col2.metric("📅 Harian", f"{total} L")
+    # Hasil
+    st.metric("Air per mandi", f"{debit} Liter")
+    st.metric("Total harian", f"{total} Liter")
     
-    # GRAFIK
-    st.bar_chart({"Shower": 10*waktu*frekuensi, "Keran": 6*waktu*frekuensi, "Ember": 20*frekuensi, "Anda": total})
+    st.write("**Grafik:**")
+    st.bar_chart({"Shower": 100, "Keran": 60, "Ember": 20, "Anda": total})
 
 with tab3:
-    st.header("🧠 Kuis Sederhana")
+    st.header("🧠 Kuis")
+    st.write("**Soal 1:** Shower 10 menit 10L/menit = ?")
+    jawaban = st.radio("Pilih:", ["10L", "100L", "1L"])
     
-    # SOAL 1
-    st.write("**Q1:** Shower 10 menit = ?")
-    jawab1 = st.radio("Pilih:", ["100L", "10L", "1L"])
-    if st.button("Cek Q1") and jawab1 == "100L":
+    if st.button("Jawab") and jawaban == "100L":
         st.success("✅ Benar!")
-    elif st.button("Cek Q1"):
-        st.error("❌ Salah!")
+    elif st.button("Jawab"):
+        st.error("❌ Coba lagi!")
     
-    # SOAL 2  
-    st.write("**Q2:** Debit = ?")
-    jawab2 = st.radio("Pilih:", ["A×v", "A+v", "A/v"], key="q2")
-    if st.button("Cek Q2", key="b2") and jawab2 == "A×v":
+    st.write("**Soal 2:** Rumus debit = ?")
+    rumus = st.radio("Pilih:", ["Q = A + v", "Q = A × v", "Q = A / v"], key="rumus")
+    
+    if st.button("Jawab 2") and rumus == "Q = A × v":
         st.success("✅ Benar!")
-    elif st.button("Cek Q2", key="b2"):
+    elif st.button("Jawab 2"):
         st.error("❌ Salah!")
 
 with tab4:
-    st.header("📈 Data Standar")
-    
-    data = {
-        "Aktivitas": ["Mandi", "Cuci tangan", "Cuci piring"],
-        "Rata-rata": [80, 5, 15]
-    }
-    st.dataframe(data)
+    st.header("📈 Data")
+    st.write("**Standar pemakaian air:**")
+    st.write("- Mandi: 80L/hari")
+    st.write("- Cuci tangan: 5L/hari") 
+    st.write("- Cuci piring: 15L/hari")
 
 st.markdown("---")
-st.caption("💧 AquaFlow v2.0 - No Error!")
+st.write("*Aplikasi belajar fisika - Debit air*")

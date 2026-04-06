@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="AquaFlow", page_icon="💧", layout="wide")
+st.set_page_config(page_title="WaterFlow", page_icon="💧", layout="wide")
 
 # State
 if 'halaman' not in st.session_state:
@@ -9,7 +9,7 @@ if 'jawaban_benar' not in st.session_state:
     st.session_state.jawaban_benar = False
 
 # ========================================
-# HALAMAN AWAL - watter
+# HALAMAN AWAL - water
 # ========================================
 if st.session_state.halaman == 'start':
     st.markdown("""
@@ -33,7 +33,6 @@ if st.session_state.halaman == 'start':
     with col2:
         if st.button("🚀 **START** 🚀", use_container_width=True, key="start_btn"):
             st.session_state.halaman = 'main'
-            st.rerun()
             st.watter()
     
     # Water animation CSS
@@ -52,7 +51,7 @@ if st.session_state.halaman == 'start':
 # HALAMAN MAIN
 # ========================================
 elif st.session_state.halaman == 'main':
-    st.markdown("### 💧 **Dashboard AquaFlow** 💧")
+    st.markdown("### 💧 **Dashboard WaterFlow** 💧")
     col1, col2 = st.columns([1,10])
     with col1:
         if st.button("🏠", key="back"):
@@ -72,7 +71,7 @@ elif st.session_state.halaman == 'main':
         waktu_mandi = st.slider("", 1, 30, 10)
         
         st.markdown("### **Jenis air:**")
-        jenis_air = st.radio("", ["Shower 🚿 (≈ 10 liter/menit)", "Keran 🚰 (≈ 6 liter/menit)"])
+        jenis_air = st.radio("", ["Shower 🚿 (≈ 10 liter / menit)", "Keran 🚰 (≈ 6 liter / menit)"])
         
         st.markdown("### **Frekuensi per hari (berapa kali mandi)**")
         frekuensi = st.slider("", 1, 4, 2)
@@ -182,4 +181,4 @@ elif st.session_state.halaman == 'main':
         st.table(data)
 
 st.markdown("---")
-st.caption("💧 AquaFlow - Simulasi Interaktif Fisika SMA")
+st.caption("💧 WaterFlow - Simulasi Interaktif Fisika SMA")

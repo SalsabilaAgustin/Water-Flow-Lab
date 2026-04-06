@@ -33,6 +33,7 @@ if st.session_state.halaman == 'start':
     with col2:
         if st.button("🚀 **START** 🚀", use_container_width=True, key="start_btn"):
             st.session_state.halaman = 'main'
+            st.rerun()
             st.watter()
     
     # Water animation CSS

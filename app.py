@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="AquaFlow", page_icon="💧", layout="wide")
+st.set_page_config(page_title="WaterFlow", page_icon="💧", layout="wide")
 
 # State
 if 'halaman' not in st.session_state:
@@ -16,7 +16,7 @@ if st.session_state.halaman == 'start':
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="big-title">💦✨ AquaFlow ✨💦</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="big-title">💦✨ WaterFlow ✨💦</h1>', unsafe_allow_html=True)
     st.markdown('<p class="cute-text">Simulasi Interaktif Fisika SMA 🛁🚿</p>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
@@ -27,7 +27,7 @@ if st.session_state.halaman == 'start':
 
 # HALAMAN MAIN
 elif st.session_state.halaman == 'main':
-    st.markdown("### 💧 **Dashboard AquaFlow** 💧")
+    st.markdown("### 💧 **Dashboard WaterFlow** 💧")
     col1, col2 = st.columns([1,10])
     with col1:
         if st.button("🏠"):
@@ -132,22 +132,81 @@ elif st.session_state.halaman == 'main':
         col2.metric("Q", f"{Q:.5f} m³/s")
     
     with tab3:
-        st.header("🧠 **Kuis**")
-        # 5 soal dengan balon (sama seperti sebelumnya)
-        st.markdown("**1.** Shower 10 menit = ?")
+        st.header("🧠 **Kuis Fisika (5 Soal)**")
+        
+        # Soal 1
+        st.markdown("**1. Shower 10 menit (10 L/menit) = ?**")
         jawab1 = st.radio("", ["10 L", "100 L", "1 L"], key="s1")
-        if st.button("Cek 1"):
-            if jawab1 == "100 L":
-                st.success("BENAR!")
-                st.balloons()
-            else:
-                st.error("❌")
-        # ... soal 2-5 sama
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cek 1", key="c1"):
+                if jawab1 == "100 L":
+                    st.session_state.jawaban_benar = True
+                    st.success("🎉 BENAR!")
+                    st.balloons()
+                else:
+                    st.error("❌ Jawaban: 100 L")
+        
+        # Soal 2
+        st.markdown("**2. Rumus debit?**")
+        jawab2 = st.radio("", ["Q=A+v", "Q=A×v", "Q=A/v"], key="s2")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cek 2", key="c2"):
+                if jawab2 == "Q=A×v":
+                    st.session_state.jawaban_benar = True
+                    st.success("🎉 BENAR!")
+                    st.balloons()
+                else:
+                    st.error("❌ Jawaban: Q=A×v")
+        
+        # Soal 3
+        st.markdown("**3. Diameter 2cm, v=1m/s, A ≈ ?**")
+        jawab3 = st.radio("", ["0.0003 m²", "0.03 m²", "3 m²"], key="s3")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cek 3", key="c3"):
+                if jawab3 == "0.0003 m²":
+                    st.session_state.jawaban_benar = True
+                    st.success("🎉 BENAR!")
+                    st.balloons()
+                else:
+                    st.error("❌ Jawaban: 0.0003 m²")
+        
+        # Soal 4
+        st.markdown("**4. Mandi 2x (8L/menit × 10 menit) = ?**")
+        jawab4 = st.radio("", ["16 L", "160 L", "80 L"], key="s4")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cek 4", key="c4"):
+                if jawab4 == "160 L":
+                    st.session_state.jawaban_benar = True
+                    st.success("🎉 BENAR!")
+                    st.balloons()
+                else:
+                    st.error("❌ Jawaban: 160 L")
+        
+        # Soal 5
+        st.markdown("**5. Unit debit Q = ?**")
+        jawab5 = st.radio("", ["m/s", "m²", "m³/s"], key="s5")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Cek 5", key="c5"):
+                if jawab5 == "m³/s":
+                    st.session_state.jawaban_benar = True
+                    st.success("🎉 BENAR!")
+                    st.balloons()
+                else:
+                    st.error("❌ Jawaban: m³/s")
     
     with tab4:
-        st.header("📈 **Data**")
-        data = {"Kegiatan": ["Mandi"], "Rata": [80], "Hemat": [50]}
+        st.header("📈 **Data Standar**")
+        data = {
+            "Kegiatan": ["Mandi", "Cuci baju", "Cuci tangan", "Cuci piring"],
+            "Rata-rata": [80, 150, 5, 15],
+            "Hemat": [50, 100 2, 8]
+        }
         st.table(data)
-
+        
 st.markdown("---")
-st.caption("💧 AquaFlow - Simulasi Lengkap")
+st.caption("💧 WaterFlow - Simulasi Lengkap")

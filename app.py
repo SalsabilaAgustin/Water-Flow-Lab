@@ -1,82 +1,70 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import random
 
-st.set_page_config(page_title="💧AquaFlow Mandi", page_icon="🚿", layout="wide")
+st.set_page_config(page_title="💧AquaFlow Full", page_icon="💧", layout="wide")
 
-st.title("🚿 **AquaFlow - Kalkulator Air Mandi**")
-st.markdown("*Estimasi Pemakaian Air Harian Siswa*")
+# ========================================
+# HALAMAN UTAMA - MENU
+# ========================================
+tab1, tab2, tab3, tab4 = st.tabs(["🚀 Mulai Simulasi", "📊 Simulasi", "🧠 Kuis", "📈 Data"])
 
-# SIDEBAR INPUT
-st.sidebar.header("📊 Input Data")
-waktu_mandi = st.sidebar.slider("⏱️ Waktu mandi", 1, 30, 10, 1)
-jenis_air = st.sidebar.selectbox("💧 Jenis air", 
-                                ["Shower 🚿 (10 L/menit)", "Keran 🚰 (6 L/menit)", "Ember 🪣 (20 L/mandi)"])
-frekuensi = st.sidebar.slider("🔄 Frekuensi per hari", 1, 4, 2, 1)
+with tab1:
+    st.header("🎮 **Selamat Datang di AquaFlow!**")
+    st.markdown("""
+    **Pilih simulasi pemakaian air harian:**
+    1. 🚿 **Mandi** - Shower/Keran/Ember
+    2. 🧼 **Cuci tangan/piring**  
+    3. 👕 **Cuci baju**
+    4. 🌱 **Siram tanaman**
+    
+    **Klik "Simulasi" untuk mulai!**
+    """)
+    
+    if st.button("🚀 **START SIMULASI**", type="primary"):
+        st.session_state['simulasi_active'] = True
+        st.success("✅ Simulasi dimulai!")
+        st.rerun()
 
-# DEBIT PER MENIT
-if "Shower" in jenis_air:
-    debit = 10  # L/menit
-elif "Keran" in jenis_air:
-    debit = 6   # L/menit
-else:
-    debit = 20  # L/mandi (langsung)
-
-# HITUNG
-if "Ember" in jenis_air:
-    air_per_mandi = debit  # Fixed 20L
+with tab2:
+    # SIMULASI MANDI
+    st.header("🚿 **Simulasi Mandi**")
+    
+    # INPUT
+    col1, col2 = st.columns(2)
+    waktu = col1.slider("⏱️ Waktu mandi (menit)", 1, 30, 10)
+    jenis = col2.selectbox("💧 Jenis", ["Shower (10L/m)", "Keran (6L/m)", "Ember (20L)"])
+    frekuensi = st.slider("🔄 Kali/hari", 1, 4, 2)
+    
+    # DEBIT
+    debit = {"Shower": 10, "Keran": 6, "Ember": 20}
+    air_per_mandi = debit["Ember"] if "Ember" in jenis else debit[jenis.split()[0]] * waktu
     total_harian = air_per_mandi * frekuensi
-else:
-    air_per_mandi = debit * waktu_mandi
-    total_harian = air_per_mandi * frekuensi
+    
+    # HASIL
+    col1, col2 = st.columns(2)
+    col1.metric("💦 Per mandi", f"{air_per_mandi:.0f} L")
+    col2.metric("📅 Harian", f"{total_harian:.0f} L")
+    
+    # GRAFIK
+    st.subheader("📊 Visualisasi")
+    df = pd.DataFrame({
+        "Jenis": ["Shower", "Keran", "Ember", "Anda"],
+        "Liter": [10*waktu*frekuensi, 6*waktu*frekuensi, 20*frekuensi, total_harian]
+    })
+    st.bar_chart(df.set_index("Jenis"))
 
-# DISPLAY 3 KOLOM
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("⏱️ Waktu mandi", f"{waktu_mandi} menit")
-col2.metric("💧 Debit", f"{debit} L/menit")
-col3.metric("🔄 Frekuensi", f"{frekuensi}x/hari")
-col4.metric("🚿 Jenis", jenis_air)
-
-# HASIL UTAMA
-st.markdown("---")
-col1, col2 = st.columns(2)
-col1.metric("💦 **Air per mandi**", f"{air_per_mandi:.0f} **Liter**")
-col2.metric("📅 **Total HARIAN**", f"{total_harian:.0f} **Liter**")
-
-# GRAFIK PEMAKAIAN
-st.subheader("📈 Perbandingan Harian")
-data = {
-    "Jenis Mandi": ["Shower", "Keran", "Ember"],
-    f"{frekuensi}x/hari": [10*waktu_mandi*frekuensi, 6*waktu_mandi*frekuensi, 20*frekuensi]
-}
-df = pd.DataFrame(data)
-st.bar_chart(df.set_index("Jenis Mandi"))
-
-# TABEL DETAIL
-st.subheader("📋 Rincian Lengkap")
-tabel = {
-    "Keterangan": ["Waktu per mandi", "Debit", "Air per mandi", "Frekuensi", "Total harian"],
-    "Nilai": [f"{waktu_mandi} menit", f"{debit} L/menit", f"{air_per_mandi:.0f} L", f"{frekuensi}x", f"{total_harian:.0f} L"]
-}
-st.dataframe(tabel, use_container_width=True)
-
-# REKOMENDASI
-st.markdown("---")
-st.subheader("💡 **Tips Hemat Air**")
-if total_harian > 80:
-    st.error(f"⚠️ **Tinggi!** {total_harian:.0f}L/hari (Rata-rata 60-80L)")
-elif total_harian > 50:
-    st.warning(f"ℹ️ Sedang: {total_harian:.0f}L/hari")
-else:
-    st.success(f"✅ **Hemat!** {total_harian:.0f}L/hari")
-
-st.info("""
-**Tips:**
-- Gunakan shower <10 menit
-- Tutup keran saat sabun
-- Pakai ember 20L
-- Mandi 1-2x/hari
-""")
-
-st.markdown("---")
-st.caption("*AquaFlow - Edukasi Hemat Air Siswa*")
+with tab3:
+    # KUIS INTERAKTIF
+    st.header("🧠 **Kuis Debit Air**")
+    
+    if 'score' not in st.session_state:
+        st.session_state.score = 0
+        st.session_state.answered = []
+    
+    # SOAL KUIS
+    soal = [
+        {"q": "Shower 10 menit, debit 10L/menit = ?", "a": [100, 10, 1], "jawab": 100},
+        {"q": "Keran 5 menit, 6L/menit, 3x/hari = ?", "a": [90, 30, 900], "jawab": 90},
+        {"q":
